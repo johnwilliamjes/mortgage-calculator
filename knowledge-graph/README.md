@@ -46,25 +46,6 @@ curl http://localhost:8000/qa/flaky-tests
 curl "http://localhost:8000/qa/search?q=login"
 ```
 
-## MCP Server (Cursor AI Integration)
-
-The MCP server wraps the FastAPI app so Cursor AI can call the same endpoints as MCP tools — zero code duplication.
-
-**Setup:**
-
-```bash
-# 1. Ensure kg-postgres is running
-docker ps --filter name=kg-postgres
-
-# 2. Install dependencies
-pip install fastmcp asyncpg
-
-# 3. Test the MCP server (Ctrl+C to stop)
-python knowledge-graph/mcp/mcp_server.py
-```
-
-**Cursor configuration** is already in `.cursor/mcp.json`. Restart Cursor to pick up the new `qa-knowledge-graph` server. The agent will see tools like `coverage_gaps()`, `impact_analysis(jira_key)`, `dependency_map(app_key)`, etc.
-
 ## Direct Database Access
 
 ```bash

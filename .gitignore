@@ -1,0 +1,8 @@
+node_modules/
+dist/
+playwright-report/
+test-results/
+.specguard/.commit-log
+*.state.json
+*.review-prompt.txt
+__pycache__/

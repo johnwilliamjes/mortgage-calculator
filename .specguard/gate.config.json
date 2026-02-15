@@ -1,0 +1,9 @@
+{
+  "projectDir": ".",
+  "timeout": 120000,
+  "commands": {
+    "unitTests": "npx vitest run",
+    "lint": "npx tsc --noEmit",
+    "build": "npm run build"
+  }
+}

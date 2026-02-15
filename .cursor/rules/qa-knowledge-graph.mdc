@@ -1,0 +1,45 @@
+---
+description: QA Knowledge Graph API - use when the user asks about test coverage, flaky tests, dependencies, impact analysis, or searches for requirements/tests
+globs:
+alwaysApply: false
+---
+
+# QA Knowledge Graph API
+
+A FastAPI service is running at http://localhost:8000 connected to a PostgreSQL knowledge graph that maps Jira requirements → Playwright tests → application endpoints.
+
+When the user asks about QA coverage, test impact, dependencies, flaky tests, or searches for requirements/tests, use these endpoints via curl:
+
+## Available Endpoints
+
+| Endpoint | When to use |
+|----------|-------------|
+| `GET /qa/coverage-gaps` | "What requirements have no tests?" / "Show coverage gaps" |
+| `GET /qa/impact/{jira_key}` | "What tests cover QA-101?" / "Impact of changing this requirement" |
+| `GET /qa/dependencies/{app_key}` | "What depends on the orders app?" / "Show dependencies for app-orders" |
+| `GET /qa/flaky-tests` | "Which tests are flaky?" / "Show unreliable tests" |
+| `GET /qa/flaky-tests?min_flaky=3` | Filter by minimum flaky count |
+| `GET /qa/app-summary` | "Give me an overview of all apps" / "How many tests per app?" |
+| `GET /qa/search?q=login` | "Find anything related to login" / "Search for payment" |
+| `GET /health` | "Is the knowledge graph running?" |
+
+## Examples
+
+```bash
+curl http://localhost:8000/qa/coverage-gaps
+curl http://localhost:8000/qa/impact/QA-101
+curl http://localhost:8000/qa/dependencies/app-orders
+curl http://localhost:8000/qa/flaky-tests
+curl http://localhost:8000/qa/app-summary
+curl "http://localhost:8000/qa/search?q=login"
+```
+
+## App Keys
+
+Valid app_key values: app-auth, app-orders, app-inventory, app-notifications, app-gateway
+
+## Notes
+
+- The API returns JSON. Parse and summarize results for the user.
+- The database runs in Docker (kg-postgres on port 5433). The API runs on port 8000.
+- Swagger docs available at http://localhost:8000/docs

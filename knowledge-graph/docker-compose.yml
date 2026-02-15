@@ -1,0 +1,33 @@
+services:
+  postgres:
+    image: pgvector/pgvector:pg17
+    container_name: kg-postgres
+    environment:
+      POSTGRES_DB: knowledgegraph
+      POSTGRES_USER: kguser
+      POSTGRES_PASSWORD: kgpass
+    ports:
+      - "5433:5432"
+    volumes:
+      - ./db/init.sql:/docker-entrypoint-initdb.d/01-init.sql
+      - ./db/seed.sql:/docker-entrypoint-initdb.d/02-seed.sql
+      - kg-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U kguser -d knowledgegraph"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  api:
+    build: ./api
+    container_name: kg-api
+    ports:
+      - "8000:8000"
+    environment:
+      DATABASE_URL: postgresql://kguser:kgpass@postgres:5432/knowledgegraph
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+volumes:
+  kg-data:
