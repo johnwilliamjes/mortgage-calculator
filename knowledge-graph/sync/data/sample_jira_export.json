@@ -1,0 +1,96 @@
+{
+  "project": {
+    "key": "MST",
+    "name": "My Software Team"
+  },
+  "issues": [
+    {
+      "key": "MST-101",
+      "fields": {
+        "summary": "User login with valid credentials should succeed",
+        "description": "As a user, I should be able to log in with my email and password. System should return a JWT token and redirect to the dashboard.",
+        "priority": { "name": "Critical" },
+        "status": { "name": "Done" },
+        "issuetype": { "name": "Story" },
+        "project": { "key": "MST" }
+      }
+    },
+    {
+      "key": "MST-102",
+      "fields": {
+        "summary": "Invalid login should show error message",
+        "description": "When a user enters wrong credentials, the system should display a clear error message without revealing which field is wrong.",
+        "priority": { "name": "High" },
+        "status": { "name": "Done" },
+        "issuetype": { "name": "Story" },
+        "project": { "key": "MST" }
+      }
+    },
+    {
+      "key": "MST-103",
+      "fields": {
+        "summary": "Password reset via email link",
+        "description": "Users should be able to request a password reset. System sends an email with a time-limited reset link.",
+        "priority": { "name": "High" },
+        "status": { "name": "In Progress" },
+        "issuetype": { "name": "Story" },
+        "project": { "key": "MST" }
+      }
+    },
+    {
+      "key": "MST-201",
+      "fields": {
+        "summary": "Mortgage calculator computes monthly PITI correctly",
+        "description": "Given principal, rate, term, tax, and insurance inputs, the calculator should return accurate monthly PITI breakdown.",
+        "priority": { "name": "Critical" },
+        "status": { "name": "Done" },
+        "issuetype": { "name": "Story" },
+        "project": { "key": "MST" }
+      }
+    },
+    {
+      "key": "MST-202",
+      "fields": {
+        "summary": "Amortization schedule generation",
+        "description": "The system should generate a full amortization schedule showing principal and interest breakdown per month for the entire loan term.",
+        "priority": { "name": "Medium" },
+        "status": { "name": "In Progress" },
+        "issuetype": { "name": "Story" },
+        "project": { "key": "MST" }
+      }
+    },
+    {
+      "key": "MST-203",
+      "fields": {
+        "summary": "Loan comparison — side by side view",
+        "description": "Users should be able to compare two loan scenarios side by side, showing total interest, monthly payment, and total cost differences.",
+        "priority": { "name": "Medium" },
+        "status": { "name": "Open" },
+        "issuetype": { "name": "Story" },
+        "project": { "key": "MST" }
+      }
+    },
+    {
+      "key": "MST-301",
+      "fields": {
+        "summary": "API rate limiting on all public endpoints",
+        "description": "Implement rate limiting (100 requests per minute per IP) on all public-facing API endpoints to prevent abuse.",
+        "priority": { "name": "High" },
+        "status": { "name": "Open" },
+        "issuetype": { "name": "Task" },
+        "project": { "key": "MST" }
+      }
+    },
+    {
+      "key": "MST-302",
+      "fields": {
+        "summary": "Session timeout after 30 minutes of inactivity",
+        "description": "User sessions should automatically expire after 30 minutes of inactivity. Show a warning 5 minutes before expiry.",
+        "priority": { "name": "Medium" },
+        "status": { "name": "Open" },
+        "issuetype": { "name": "Task" },
+        "project": { "key": "MST" }
+      }
+    }
+  ]
+}

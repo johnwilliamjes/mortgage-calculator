@@ -1,5 +1,5 @@
 ---
-description: QA Knowledge Graph API - use when the user asks about test coverage, flaky tests, dependencies, impact analysis, or searches for requirements/tests
+description: QA Knowledge Graph API - use when the user asks about test coverage, flaky tests, dependencies, impact analysis, running tests, or searches for requirements/tests
 globs:
 alwaysApply: false
 ---
@@ -34,9 +34,33 @@ curl http://localhost:8000/qa/app-summary
 curl "http://localhost:8000/qa/search?q=login"
 ```
 
+## Run Tests
+
+When the user asks to "run tests", "kick off tests", or "execute Playwright tests":
+
+```bash
+cd knowledge-graph/sync && python run_tests_and_sync.py
+```
+
+This will:
+1. Run all Playwright E2E tests
+2. Parse the results (pass/fail/duration/errors)
+3. Sync results into the knowledge graph
+4. Update flaky counts and test stats
+
+After running, check results via:
+```bash
+curl http://localhost:8000/qa/flaky-tests
+```
+
+To run just the tests without syncing:
+```bash
+npx playwright test
+```
+
 ## App Keys
 
-Valid app_key values: app-auth, app-orders, app-inventory, app-notifications, app-gateway
+Valid app_key values: app-auth, app-orders, app-inventory, app-notifications, app-gateway, MST
 
 ## Notes
 
