@@ -6,10 +6,12 @@ import PaymentSummary from './components/PaymentSummary';
 import AmortizationTable from './components/AmortizationTable';
 import PaymentChart from './components/PaymentChart';
 import LoanComparison from './components/LoanComparison';
+import PayoffSimulator from './components/PayoffSimulator';
+import RefinanceCalculator from './components/RefinanceCalculator';
 import { calculateMortgage } from './utils/mortgage';
 import type { MortgageInput, MortgageResult } from './types/mortgage';
 
-type Tab = 'summary' | 'amortization' | 'chart' | 'compare';
+type Tab = 'summary' | 'amortization' | 'chart' | 'compare' | 'payoff' | 'refinance';
 
 export default function App() {
   const [result, setResult] = useState<MortgageResult | null>(null);
@@ -55,17 +57,38 @@ export default function App() {
                   >
                     Compare
                   </button>
+                  <button
+                    className={`tab-btn ${activeTab === 'payoff' ? 'active' : ''}`}
+                    onClick={() => setActiveTab('payoff')}
+                  >
+                    Payoff
+                  </button>
+                  <button
+                    className={`tab-btn ${activeTab === 'refinance' ? 'active' : ''}`}
+                    onClick={() => setActiveTab('refinance')}
+                  >
+                    Refinance
+                  </button>
                 </div>
 
                 <div style={{ padding: '16px 0' }}>
                   {activeTab === 'amortization' && (
-                    <AmortizationTable schedule={result.amortizationSchedule} />
+                    <AmortizationTable
+                      schedule={result.amortizationSchedule}
+                      exportFilename={`amortization-${input.homePrice}-${input.interestRate}-${input.loanTermYears}yr`}
+                    />
                   )}
                   {activeTab === 'chart' && (
                     <PaymentChart schedule={result.amortizationSchedule} />
                   )}
                   {activeTab === 'compare' && (
                     <LoanComparison currentInput={input} currentResult={result} />
+                  )}
+                  {activeTab === 'payoff' && (
+                    <PayoffSimulator input={input} result={result} />
+                  )}
+                  {activeTab === 'refinance' && (
+                    <RefinanceCalculator />
                   )}
                 </div>
               </div>

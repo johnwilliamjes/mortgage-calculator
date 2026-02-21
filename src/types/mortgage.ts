@@ -36,3 +36,41 @@ export interface MortgageResult {
   totalInterest: number;
   loanAmount: number;
 }
+
+/** Extra payment options for payoff simulator */
+export interface ExtraPaymentsInput {
+  oneTimeAmount: number;
+  oneTimeMonth: number;
+  recurringExtra: number;
+}
+
+/** Result of amortization with extra payments */
+export interface PayoffSimulatorResult {
+  schedule: AmortizationRow[];
+  payoffMonth: number;
+  totalInterestPaid: number;
+  interestSaved: number;
+  monthsSaved: number;
+  pmiDroppedMonth: number | null;
+}
+
+/** Inputs for refinance break-even calculator */
+export interface RefinanceInput {
+  currentBalance: number;
+  currentRate: number;
+  remainingMonths: number;
+  currentMonthlyPI: number;
+  newRate: number;
+  newTermYears: number;
+  closingCosts: number;
+}
+
+/** Result of refinance break-even calculation */
+export interface RefinanceResult {
+  newMonthlyPI: number;
+  monthlySavings: number;
+  breakEvenMonths: number;
+  totalInterestCurrent: number;
+  totalInterestNew: number;
+  interestSaved: number;
+}

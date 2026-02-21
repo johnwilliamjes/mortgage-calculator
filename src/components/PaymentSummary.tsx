@@ -14,14 +14,14 @@ const summaryStyle: React.CSSProperties = {
 const bigNumberStyle: React.CSSProperties = {
   fontSize: '2rem',
   fontWeight: 700,
-  color: '#1a73e8',
+  color: 'var(--primary)',
   textAlign: 'center',
   padding: '8px 0',
 };
 
 const bigLabel: React.CSSProperties = {
   fontSize: '0.8rem',
-  color: '#5f6368',
+  color: 'var(--text-secondary)',
   textAlign: 'center',
   marginTop: '-8px',
 };
@@ -31,7 +31,7 @@ const rowStyle: React.CSSProperties = {
   justifyContent: 'space-between',
   alignItems: 'center',
   padding: '8px 0',
-  borderBottom: '1px solid #f1f3f4',
+  borderBottom: '1px solid var(--border)',
 };
 
 const dotStyle = (color: string): React.CSSProperties => ({
@@ -45,7 +45,7 @@ const dotStyle = (color: string): React.CSSProperties => ({
 
 const labelStyle: React.CSSProperties = {
   fontSize: '0.9rem',
-  color: '#5f6368',
+  color: 'var(--text-secondary)',
   display: 'flex',
   alignItems: 'center',
 };
@@ -53,7 +53,7 @@ const labelStyle: React.CSSProperties = {
 const valueStyle: React.CSSProperties = {
   fontSize: '0.9rem',
   fontWeight: 600,
-  color: '#202124',
+  color: 'var(--text)',
 };
 
 const totalRowStyle: React.CSSProperties = {
@@ -61,7 +61,7 @@ const totalRowStyle: React.CSSProperties = {
   justifyContent: 'space-between',
   padding: '12px 0 4px',
   fontSize: '0.85rem',
-  color: '#5f6368',
+  color: 'var(--text-secondary)',
 };
 
 export default function PaymentSummary({ result }: Props) {
@@ -107,18 +107,18 @@ export default function PaymentSummary({ result }: Props) {
           </div>
         ))}
 
-        <div style={{ borderTop: '2px solid #dadce0', paddingTop: 12 }}>
+        <div style={{ borderTop: '2px solid var(--border)', paddingTop: 12 }}>
           <div style={totalRowStyle}>
             <span>Loan Amount</span>
-            <span style={{ fontWeight: 600, color: '#202124' }}>{formatCurrency(loanAmount)}</span>
+            <span style={{ fontWeight: 600, color: 'var(--text)' }}>{formatCurrency(loanAmount)}</span>
           </div>
           <div style={totalRowStyle}>
             <span>Total Interest</span>
-            <span style={{ fontWeight: 600, color: '#ea4335' }}>{formatCurrency(totalInterest)}</span>
+            <span style={{ fontWeight: 600, color: 'var(--error)' }}>{formatCurrency(totalInterest)}</span>
           </div>
           <div style={totalRowStyle}>
             <span>Total Cost</span>
-            <span style={{ fontWeight: 600, color: '#202124' }}>{formatCurrency(totalPayment)}</span>
+            <span style={{ fontWeight: 600, color: 'var(--text)' }}>{formatCurrency(totalPayment)}</span>
           </div>
         </div>
       </div>
