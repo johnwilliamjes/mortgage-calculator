@@ -67,6 +67,9 @@ const totalRowStyle: React.CSSProperties = {
 export default function PaymentSummary({ result }: Props) {
   const { monthlyBreakdown, totalPayment, totalInterest, loanAmount } = result;
 
+  const escrowTotal =
+    monthlyBreakdown.propertyTax + monthlyBreakdown.homeInsurance + monthlyBreakdown.pmi;
+
   const items = [
     { label: 'Principal & Interest', value: monthlyBreakdown.principalAndInterest, color: '#1a73e8' },
     { label: 'Property Tax', value: monthlyBreakdown.propertyTax, color: '#34a853' },
@@ -76,6 +79,12 @@ export default function PaymentSummary({ result }: Props) {
   if (monthlyBreakdown.pmi > 0) {
     items.push({ label: 'PMI', value: monthlyBreakdown.pmi, color: '#ea4335' });
   }
+
+  items.push({
+    label: 'Escrow (tax + insurance + PMI)',
+    value: escrowTotal,
+    color: '#5f6368',
+  });
 
   return (
     <div className="card">
