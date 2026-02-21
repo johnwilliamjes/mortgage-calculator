@@ -1,9 +1,11 @@
 import { useState } from 'react';
 import type { AmortizationRow } from '../types/mortgage';
-import { formatCurrency } from '../utils/mortgage';
+import { formatCurrency, amortizationToCSV } from '../utils/mortgage';
 
 interface Props {
   schedule: AmortizationRow[];
+  /** Optional filename stem for CSV export (e.g. "amortization-350000-6.5-30yr") */
+  exportFilename?: string;
 }
 
 const tableStyle: React.CSSProperties = {
@@ -15,19 +17,19 @@ const tableStyle: React.CSSProperties = {
 const thStyle: React.CSSProperties = {
   padding: '8px 10px',
   textAlign: 'left',
-  borderBottom: '2px solid #dadce0',
-  color: '#5f6368',
+  borderBottom: '2px solid var(--border)',
+  color: 'var(--text-secondary)',
   fontWeight: 600,
   fontSize: '0.78rem',
   position: 'sticky',
   top: 0,
-  background: '#fff',
+  background: 'var(--card-bg)',
 };
 
 const tdStyle: React.CSSProperties = {
   padding: '6px 10px',
-  borderBottom: '1px solid #f1f3f4',
-  color: '#202124',
+  borderBottom: '1px solid var(--border)',
+  color: 'var(--text)',
 };
 
 const toggleStyle: React.CSSProperties = {
@@ -38,10 +40,10 @@ const toggleStyle: React.CSSProperties = {
 
 const toggleBtnStyle = (active: boolean): React.CSSProperties => ({
   padding: '6px 14px',
-  border: `1px solid ${active ? '#1a73e8' : '#dadce0'}`,
+  border: `1px solid ${active ? 'var(--primary)' : 'var(--border)'}`,
   borderRadius: '16px',
-  background: active ? '#e8f0fe' : 'transparent',
-  color: active ? '#1a73e8' : '#5f6368',
+  background: active ? 'var(--primary)' : 'transparent',
+  color: active ? '#fff' : 'var(--text-secondary)',
   cursor: 'pointer',
   fontSize: '0.8rem',
   fontWeight: 500,
@@ -49,7 +51,18 @@ const toggleBtnStyle = (active: boolean): React.CSSProperties => ({
 
 type ViewMode = 'monthly' | 'yearly';
 
-export default function AmortizationTable({ schedule }: Props) {
+function downloadCSV(schedule: AmortizationRow[], filenameStem: string) {
+  const csv = amortizationToCSV(schedule);
+  const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `${filenameStem || 'amortization'}.csv`;
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+export default function AmortizationTable({ schedule, exportFilename = 'amortization' }: Props) {
   const [viewMode, setViewMode] = useState<ViewMode>('yearly');
   const [showAll, setShowAll] = useState(false);
 
@@ -77,18 +90,36 @@ export default function AmortizationTable({ schedule }: Props) {
 
   return (
     <div>
-      <div style={toggleStyle}>
+      <div style={{ ...toggleStyle, flexWrap: 'wrap', alignItems: 'center' }}>
+        <div style={{ display: 'flex', gap: 8 }}>
+          <button
+            style={toggleBtnStyle(viewMode === 'yearly')}
+            onClick={() => setViewMode('yearly')}
+          >
+            Yearly
+          </button>
+          <button
+            style={toggleBtnStyle(viewMode === 'monthly')}
+            onClick={() => setViewMode('monthly')}
+          >
+            Monthly
+          </button>
+        </div>
         <button
-          style={toggleBtnStyle(viewMode === 'yearly')}
-          onClick={() => setViewMode('yearly')}
+          type="button"
+          onClick={() => downloadCSV(schedule, exportFilename)}
+          style={{
+            padding: '6px 14px',
+            border: '1px solid var(--border)',
+            borderRadius: '16px',
+            background: 'var(--card-bg)',
+            color: 'var(--primary)',
+            cursor: 'pointer',
+            fontSize: '0.8rem',
+            fontWeight: 500,
+          }}
         >
-          Yearly
-        </button>
-        <button
-          style={toggleBtnStyle(viewMode === 'monthly')}
-          onClick={() => setViewMode('monthly')}
-        >
-          Monthly
+          Export CSV
         </button>
       </div>
 
@@ -141,10 +172,10 @@ export default function AmortizationTable({ schedule }: Props) {
           style={{
             marginTop: 8,
             padding: '6px 16px',
-            border: '1px solid #dadce0',
+            border: '1px solid var(--border)',
             borderRadius: '6px',
             background: 'none',
-            color: '#1a73e8',
+            color: 'var(--primary)',
             cursor: 'pointer',
             fontSize: '0.85rem',
           }}
