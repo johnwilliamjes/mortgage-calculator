@@ -24,12 +24,17 @@ export default function App() {
     setInput(mortgageInput);
   };
 
+  const handleClear = () => {
+    setResult(null);
+    setInput(null);
+  };
+
   return (
     <div className="app">
       <Header />
       <div className="app-grid">
         <div>
-          <MortgageForm onCalculate={handleCalculate} />
+          <MortgageForm onCalculate={handleCalculate} onClear={handleClear} />
         </div>
 
         <div className="right-panel">
