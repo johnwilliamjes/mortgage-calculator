@@ -3,6 +3,7 @@ import type { MortgageInput, LoanType } from '../types/mortgage';
 
 interface Props {
   onCalculate: (input: MortgageInput) => void;
+  onClear?: () => void;
 }
 
 const formStyle: React.CSSProperties = {
@@ -54,14 +55,35 @@ const rowStyle: React.CSSProperties = {
   gap: '12px',
 };
 
-export default function MortgageForm({ onCalculate }: Props) {
-  const [homePrice, setHomePrice] = useState('350000');
-  const [downPayment, setDownPayment] = useState('70000');
-  const [interestRate, setInterestRate] = useState('6.5');
-  const [loanTerm, setLoanTerm] = useState('30');
-  const [loanType, setLoanType] = useState<LoanType>('fixed');
-  const [propertyTaxRate, setPropertyTaxRate] = useState('1.2');
-  const [insuranceRate, setInsuranceRate] = useState('0.35');
+const initialValues = {
+  homePrice: '350000',
+  downPayment: '70000',
+  interestRate: '6.5',
+  loanTerm: '30',
+  loanType: 'fixed' as LoanType,
+  propertyTaxRate: '1.2',
+  insuranceRate: '0.35',
+};
+
+export default function MortgageForm({ onCalculate, onClear }: Props) {
+  const [homePrice, setHomePrice] = useState(initialValues.homePrice);
+  const [downPayment, setDownPayment] = useState(initialValues.downPayment);
+  const [interestRate, setInterestRate] = useState(initialValues.interestRate);
+  const [loanTerm, setLoanTerm] = useState(initialValues.loanTerm);
+  const [loanType, setLoanType] = useState<LoanType>(initialValues.loanType);
+  const [propertyTaxRate, setPropertyTaxRate] = useState(initialValues.propertyTaxRate);
+  const [insuranceRate, setInsuranceRate] = useState(initialValues.insuranceRate);
+
+  const handleClear = () => {
+    setHomePrice(initialValues.homePrice);
+    setDownPayment(initialValues.downPayment);
+    setInterestRate(initialValues.interestRate);
+    setLoanTerm(initialValues.loanTerm);
+    setLoanType(initialValues.loanType);
+    setPropertyTaxRate(initialValues.propertyTaxRate);
+    setInsuranceRate(initialValues.insuranceRate);
+    onClear?.();
+  };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -188,9 +210,19 @@ export default function MortgageForm({ onCalculate }: Props) {
           </label>
         </div>
 
-        <button data-testid="calculate-btn" type="submit" style={buttonStyle}>
-          Calculate
-        </button>
+        <div style={{ display: 'flex', gap: '10px', marginTop: '4px' }}>
+          <button data-testid="calculate-btn" type="submit" style={{ ...buttonStyle, flex: 1 }}>
+            Calculate
+          </button>
+          <button
+            data-testid="clear-btn"
+            type="button"
+            onClick={handleClear}
+            style={{ ...buttonStyle, flex: 1, background: '#5f6368' }}
+          >
+            Clear
+          </button>
+        </div>
       </form>
     </div>
   );
