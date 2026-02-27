@@ -7,6 +7,7 @@ export interface MortgageInput {
   loanType: LoanType;
   downPayment: number;
   propertyTaxRate: number;
+  schoolTaxRate: number;
   insuranceRate: number;
   homePrice: number;
 }
@@ -14,6 +15,7 @@ export interface MortgageInput {
 export interface MonthlyBreakdown {
   principalAndInterest: number;
   propertyTax: number;
+  schoolTax: number;
   homeInsurance: number;
   pmi: number;
   totalMonthly: number;

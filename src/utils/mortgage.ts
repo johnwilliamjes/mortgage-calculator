@@ -32,6 +32,13 @@ export function calculateMonthlyPropertyTax(homePrice: number, taxRate: number):
 }
 
 /**
+ * Calculate monthly school district tax.
+ */
+export function calculateMonthlySchoolTax(homePrice: number, taxRate: number): number {
+  return (homePrice * (taxRate / 100)) / 12;
+}
+
+/**
  * Calculate monthly homeowner's insurance.
  */
 export function calculateMonthlyInsurance(homePrice: number, insuranceRate: number): number {
@@ -58,15 +65,17 @@ export function calculateMonthlyBreakdown(input: MortgageInput): MonthlyBreakdow
   const loanAmount = input.homePrice - input.downPayment;
   const principalAndInterest = calculateMonthlyPI(loanAmount, input.interestRate, input.loanTermYears);
   const propertyTax = calculateMonthlyPropertyTax(input.homePrice, input.propertyTaxRate);
+  const schoolTax = calculateMonthlySchoolTax(input.homePrice, input.schoolTaxRate);
   const homeInsurance = calculateMonthlyInsurance(input.homePrice, input.insuranceRate);
   const pmi = calculateMonthlyPMI(loanAmount, input.homePrice);
 
   return {
     principalAndInterest: roundToTwo(principalAndInterest),
     propertyTax: roundToTwo(propertyTax),
+    schoolTax: roundToTwo(schoolTax),
     homeInsurance: roundToTwo(homeInsurance),
     pmi: roundToTwo(pmi),
-    totalMonthly: roundToTwo(principalAndInterest + propertyTax + homeInsurance + pmi),
+    totalMonthly: roundToTwo(principalAndInterest + propertyTax + schoolTax + homeInsurance + pmi),
   };
 }
 

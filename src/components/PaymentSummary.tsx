@@ -68,13 +68,19 @@ export default function PaymentSummary({ result }: Props) {
   const { monthlyBreakdown, totalPayment, totalInterest, loanAmount } = result;
 
   const escrowTotal =
-    monthlyBreakdown.propertyTax + monthlyBreakdown.homeInsurance + monthlyBreakdown.pmi;
+    monthlyBreakdown.propertyTax +
+    monthlyBreakdown.schoolTax +
+    monthlyBreakdown.homeInsurance +
+    monthlyBreakdown.pmi;
 
   const items = [
     { label: 'Principal & Interest', value: monthlyBreakdown.principalAndInterest, color: '#1a73e8' },
     { label: 'Property Tax', value: monthlyBreakdown.propertyTax, color: '#34a853' },
-    { label: 'Home Insurance', value: monthlyBreakdown.homeInsurance, color: '#f9ab00' },
   ];
+  if (monthlyBreakdown.schoolTax > 0) {
+    items.push({ label: 'School Tax', value: monthlyBreakdown.schoolTax, color: '#9c27b0' });
+  }
+  items.push({ label: 'Home Insurance', value: monthlyBreakdown.homeInsurance, color: '#f9ab00' });
 
   if (monthlyBreakdown.pmi > 0) {
     items.push({ label: 'PMI', value: monthlyBreakdown.pmi, color: '#ea4335' });

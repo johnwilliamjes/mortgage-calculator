@@ -62,6 +62,7 @@ const initialValues = {
   loanTerm: '30',
   loanType: 'fixed' as LoanType,
   propertyTaxRate: '1.2',
+  schoolTaxRate: '0',
   insuranceRate: '0.35',
 };
 
@@ -72,6 +73,7 @@ export default function MortgageForm({ onCalculate, onClear }: Props) {
   const [loanTerm, setLoanTerm] = useState(initialValues.loanTerm);
   const [loanType, setLoanType] = useState<LoanType>(initialValues.loanType);
   const [propertyTaxRate, setPropertyTaxRate] = useState(initialValues.propertyTaxRate);
+  const [schoolTaxRate, setSchoolTaxRate] = useState(initialValues.schoolTaxRate);
   const [insuranceRate, setInsuranceRate] = useState(initialValues.insuranceRate);
 
   const handleClear = () => {
@@ -81,6 +83,7 @@ export default function MortgageForm({ onCalculate, onClear }: Props) {
     setLoanTerm(initialValues.loanTerm);
     setLoanType(initialValues.loanType);
     setPropertyTaxRate(initialValues.propertyTaxRate);
+    setSchoolTaxRate(initialValues.schoolTaxRate);
     setInsuranceRate(initialValues.insuranceRate);
     onClear?.();
   };
@@ -98,6 +101,7 @@ export default function MortgageForm({ onCalculate, onClear }: Props) {
       loanTermYears: parseInt(loanTerm) || 30,
       loanType,
       propertyTaxRate: parseFloat(propertyTaxRate) || 0,
+      schoolTaxRate: parseFloat(schoolTaxRate) || 0,
       insuranceRate: parseFloat(insuranceRate) || 0,
     });
   };
@@ -180,7 +184,7 @@ export default function MortgageForm({ onCalculate, onClear }: Props) {
           </select>
         </label>
 
-        <div style={rowStyle}>
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '12px' }}>
           <label style={labelStyle}>
             Property Tax (%)
             <input
@@ -194,7 +198,19 @@ export default function MortgageForm({ onCalculate, onClear }: Props) {
               step="0.1"
             />
           </label>
-
+          <label style={labelStyle}>
+            School Tax (%)
+            <input
+              data-testid="school-tax-rate"
+              type="number"
+              style={inputStyle}
+              value={schoolTaxRate}
+              onChange={(e) => setSchoolTaxRate(e.target.value)}
+              min="0"
+              max="10"
+              step="0.1"
+            />
+          </label>
           <label style={labelStyle}>
             Insurance (%)
             <input
@@ -211,6 +227,7 @@ export default function MortgageForm({ onCalculate, onClear }: Props) {
         </div>
 
         <div style={{ display: 'flex', gap: '10px', marginTop: '4px' }}>
+
           <button data-testid="calculate-btn" type="submit" style={{ ...buttonStyle, flex: 1 }}>
             Calculate
           </button>
